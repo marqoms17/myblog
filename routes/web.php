@@ -33,6 +33,8 @@ Route::get('/contact', function () {
 
 Route::get('/dashboard', [PostDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::post('/dashboard', [PostDashboardController::class, 'store'])->middleware(['auth', 'verified']);
+
 //posisi route untuk create jangan berada setelah route untuk show (route model binding)
 Route::get('/dashboard/create', [PostDashboardController::class, 'create'])->middleware(['auth', 'verified']);
 
