@@ -31,14 +31,16 @@ Route::get('/contact', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/dashboard', [PostDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('/dashboard', [PostDashboardController::class, 'store'])->middleware(['auth', 'verified']);
 
-//posisi route untuk create jangan berada setelah route untuk show (route model binding)
-Route::get('/dashboard/create', [PostDashboardController::class, 'create'])->middleware(['auth', 'verified']);
-
-Route::get('/dashboard/{post:slug}', [PostDashboardController::class, 'show'])->middleware(['auth', 'verified']);
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [PostDashboardController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard', [PostDashboardController::class, 'store']);
+    Route::get('/dashboard/create', [PostDashboardController::class, 'create']);
+    Route::delete('/dashboard/{post:slug}', [PostDashboardController::class, 'destroy']);
+    //posisi route show (route model binding) selalu diakhir
+    Route::get('/dashboard/{post:slug}', [PostDashboardController::class, 'show']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
