@@ -115,8 +115,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <button type="button" data-modal-target="updateProductModal"
-                                                    data-modal-toggle="updateProductModal"
+                                                <a href="/dashboard/{{ $post->slug }}/edit"
                                                     class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
                                                     <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
                                                         viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -126,7 +125,7 @@
                                                             d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
                                                     </svg>
                                                     Edit
-                                                </button>
+                                                </a>
                                             </li>
 
                                             <li>

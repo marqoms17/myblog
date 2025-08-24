@@ -38,6 +38,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard', [PostDashboardController::class, 'store']);
     Route::get('/dashboard/create', [PostDashboardController::class, 'create']);
     Route::delete('/dashboard/{post:slug}', [PostDashboardController::class, 'destroy']);
+    Route::get('/dashboard/{post:slug}/edit', [PostDashboardController::class, 'edit']);
+    Route::patch('/dashboard/{post:slug}', [PostDashboardController::class, 'update']);
     //posisi route show (route model binding) selalu diakhir
     Route::get('/dashboard/{post:slug}', [PostDashboardController::class, 'show']);
 });
