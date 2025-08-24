@@ -7,20 +7,37 @@
         @csrf
         <div class="mb-4">
             <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-            <input type="text" name="title" id="title"
-                class="@error('title') bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500
-                @enderror
-                border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="Type post title" autofocus value="{{ old('title') ?? $post->title }}">
+            <input type="text" name="title" id="title" @class([
+                // 1. Kelas dasar yang selalu diterapkan
+                'border text-sm rounded-lg block w-full p-2.5',
+                'dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white',
+                'dark:focus:ring-primary-500 dark:focus:border-primary-500',
+                // 2. Kelas untuk kondisi normal (TIDAK ada error)
+                'border-gray-300 text-gray-900 focus:ring-primary-600 focus:border-primary-600' => !$errors->has(
+                    'title'),
+                // 3. Kelas untuk kondisi error
+                'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500' => $errors->has(
+                    'title'),
+            ]) placeholder="Type post title"
+                autofocus value="{{ old('title') ?? $post->title }}">
             @error('title')
                 <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-4">
             <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-            <select name="category_id" id="category"
-                class="@error('category_id') bg-red-50 border-red-500 text-red-700 placeholder-red-700 focus:ring-red-500 focus:border-red-500
-                @enderror border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+            <select name="category_id" id="category" @class([
+                // Kelas dasar yang selalu ada
+                'border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5',
+                'focus:ring-primary-500 focus:border-primary-500',
+                'dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white',
+                'dark:focus:ring-primary-500 dark:focus:border-primary-500',
+                // Kelas yang hanya diterapkan JIKA ada error
+                'bg-red-50 border-red-500 text-red-700 placeholder-red-700 focus:ring-red-500 focus:border-red-500' => $errors->has(
+                    'category_id'),
+                // Override kelas dasar jika ada error (opsional, tapi lebih jelas)
+                'border-gray-300' => !$errors->has('category_id'),
+            ])>
                 <option selected="" value="">Select post category</option>
                 @foreach (App\Models\Category::get() as $category)
                     <option value="{{ $category->id }}" @selected((old('category_id') ?? $post->category->id) == $category->id)>{{ $category->name }}</option>
@@ -32,10 +49,18 @@
         </div>
         <div class="mb-4">
             <label for="body" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Body</label>
-            <textarea id="body" name="body" rows="4"
-                class="@error('body') bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500
-                @enderror block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="Write post body here">{{ old('body') ?? $post->body }}</textarea>
+            <textarea id="body" name="body" rows="4" @class([
+                // Kelas dasar yang selalu ada
+                'border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5',
+                'focus:ring-primary-500 focus:border-primary-500',
+                'dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white',
+                'dark:focus:ring-primary-500 dark:focus:border-primary-500',
+                // Kelas yang hanya diterapkan JIKA ada error
+                'bg-red-50 border-red-500 text-red-700 placeholder-red-700 focus:ring-red-500 focus:border-red-500' => $errors->has(
+                    'body'),
+                // Override kelas dasar jika ada error (opsional, tapi lebih jelas)
+                'border-gray-300' => !$errors->has('body'),
+            ]) placeholder="Write post body here">{{ old('body') ?? $post->body }}</textarea>
             @error('body')
                 <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
             @enderror
